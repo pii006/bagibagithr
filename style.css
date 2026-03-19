@@ -1,0 +1,398 @@
+/* =============================================
+   CSS VARIABLES — RAMADAN FESTIVE PALETTE
+   ============================================= */
+:root {
+  --gold:  #F0C040;
+  --gold2: #FFE08A;
+  --navy:  #0C1A35;
+  --red:   #C0392B;
+}
+
+/* =============================================
+   RESET & BASE
+   ============================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--navy);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Atmospheric background gradients */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 0%, rgba(27,122,69,.3) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(5,10,25,.9) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =============================================
+   STARS BACKGROUND
+   ============================================= */
+#stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Individual star element — spawned by JS */
+.s {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: tw var(--d, 3s) var(--dl, 0s) ease-in-out infinite;
+}
+
+@keyframes tw {
+  0%, 100% { opacity: .07; }
+  50%       { opacity: .85; }
+}
+
+/* =============================================
+   ROPE & LANTERNS (top decoration)
+   ============================================= */
+.rope {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gold) 0, var(--gold) 10px,
+    transparent 10px, transparent 26px
+  );
+  opacity: .4;
+  z-index: 1;
+}
+
+.lanterns {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: sway var(--sw, 4s) var(--sd, 0s) ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+
+@keyframes sway {
+  from { transform: rotate(-6deg); }
+  to   { transform: rotate(6deg);  }
+}
+
+.lan-line {
+  width: 1.5px;
+  height: 34px;
+  background: var(--gold);
+  opacity: .4;
+}
+
+.lan-body {
+  width: 20px;
+  height: 28px;
+  border-radius: 3px 3px 50% 50% / 3px 3px 55% 55%;
+  box-shadow: 0 0 10px var(--c), 0 0 18px var(--c)55;
+}
+
+.lan-tip {
+  width: 8px;
+  height: 5px;
+  border-radius: 0 0 3px 3px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   MAIN WRAPPER
+   ============================================= */
+.wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
+h1 {
+  font-family: 'Scheherazade New', serif;
+  font-size: clamp(1.9rem, 8vw, 3rem);
+  color: var(--gold);
+  text-shadow:
+    0 0 28px rgba(240,192,64,.5),
+    0 2px 6px rgba(0,0,0,.7);
+  letter-spacing: 2px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.sub {
+  font-size: .72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold2);
+  opacity: .55;
+  text-align: center;
+}
+
+/* =============================================
+   WHEEL AREA
+   ============================================= */
+.wheel-area {
+  position: relative;
+  width: min(340px, 90vw);
+  height: min(340px, 90vw);
+}
+
+/* Outer decorative ring */
+.ring-out {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 2px solid rgba(240,192,64,.18);
+}
+
+/* Inner decorative ring */
+.ring-mid {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 3px solid rgba(240,192,64,.32);
+  box-shadow: 0 0 20px rgba(240,192,64,.12);
+}
+
+/* Fixed pointer — stays still while wheel rotates */
+.pointer {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.7));
+}
+
+/* Wheel canvas */
+#wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+  box-shadow:
+    0 0 0 4px rgba(240,192,64,.22),
+    0 0 50px rgba(0,0,0,.7),
+    0 8px 32px rgba(0,0,0,.5);
+}
+
+/* Center hub button */
+.hub {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff8e0, var(--gold), #8a6000);
+  border: 3px solid rgba(255,255,255,.3);
+  box-shadow:
+    0 2px 14px rgba(0,0,0,.6),
+    inset 0 1px 2px rgba(255,255,255,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  z-index: 5;
+}
+
+/* Rotating glow ring — shown only while spinning */
+.glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--gold)00, var(--gold)33, var(--gold)00,
+    var(--gold)33, var(--gold)00
+  );
+  animation: cog 4s linear infinite;
+  opacity: 0;
+  transition: opacity .4s;
+  pointer-events: none;
+}
+
+.glow.on { opacity: 1; }
+
+@keyframes cog { to { transform: rotate(360deg); } }
+
+/* =============================================
+   SPIN BUTTON
+   ============================================= */
+.btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--navy);
+  background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 50%, #b8820a 100%);
+  border: none;
+  border-radius: 99px;
+  padding: 15px 52px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #7a5600, 0 8px 28px rgba(240,192,64,.35);
+  position: relative;
+  overflow: hidden;
+  transition: transform .1s, box-shadow .1s;
+}
+
+/* Shimmer sweep effect */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -70%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-20deg);
+  animation: shim 3s infinite;
+}
+
+@keyframes shim {
+  0%   { left: -70%; }
+  100% { left: 130%; }
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #7a5600, 0 12px 36px rgba(240,192,64,.5);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #7a5600;
+}
+
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* =============================================
+   RESULT BADGE
+   ============================================= */
+.badge {
+  min-width: 240px;
+  padding: 14px 28px;
+  border-radius: 16px;
+  text-align: center;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(240,192,64,.2);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .45s, transform .45s;
+}
+
+.badge.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.badge-lbl {
+  font-size: .6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: .45;
+  margin-bottom: 4px;
+}
+
+.badge-val {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1.15;
+}
+
+.badge-val.z     { color: var(--red); }
+.badge-val.saham { font-size: 1.5rem; }
+
+.badge-msg {
+  font-size: .77rem;
+  opacity: .6;
+  margin-top: 4px;
+}
+
+/* =============================================
+   SPIN HISTORY CHIPS
+   ============================================= */
+.hist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  max-width: 360px;
+  min-height: 26px;
+}
+
+.hc {
+  font-size: .68rem;
+  font-weight: 700;
+  border-radius: 99px;
+  padding: 2px 10px;
+  border: 1px solid;
+}
+
+/* Cash win */
+.hc.w {
+  color: var(--gold);
+  border-color: rgba(240,192,64,.35);
+  background: rgba(240,192,64,.07);
+}
+
+
+.hc.z {
+  color: #e74c3c;
+  border-color: rgba(231,76,60,.35);
+  background: rgba(231,76,60,.07);
+}
+
+/* Stock win (DADA / BUMI) */
+.hc.sb {
+  color: #38bdf8;
+  border-color: rgba(56,189,248,.35);
+  background: rgba(56,189,248,.07);
+}
+
+/* =============================================
+   CONFETTI CANVAS (jackpot effect)
+   ============================================= */
+#cfx {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99;
+  display: none;
+}
